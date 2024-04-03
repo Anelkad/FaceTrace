@@ -4,4 +4,9 @@
     <string name="open_gallery">Open gallery</string>
     <string name="cancel">Cancel</string>
     <string name="image">Image</string>
+    <string name="upload_image">Upload image</string>
+    <string name="recent">Recent</string>
+    <string name="allow">Allow</string>
+    <string name="permission_title_camera">Allow access to the camera</string>
+    <string name="permission_msg_camera">To take photos, shoot videos \bonline and send to chat, FaceTrace \nneeds permission to the camera</string>
 </resources>
