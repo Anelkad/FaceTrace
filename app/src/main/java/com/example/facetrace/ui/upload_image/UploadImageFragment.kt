@@ -12,18 +12,18 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.domain.model.Gallery
 import com.example.domain.model.Media
 import com.example.facetrace.R
 import com.example.facetrace.base.constants.Constants
-import com.example.facetrace.base.extensions.loadCover
 import com.example.facetrace.base.extensions.showPermissionAlert
 import com.example.facetrace.databinding.FragmentUploadImageBinding
 import com.example.facetrace.ui.file_picker.BottomDialogFilePicker
@@ -44,6 +44,12 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
 
     private val viewModel: UploadImageViewModel by viewModels()
 
+    private val readImagesPermission =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+            Manifest.permission.READ_MEDIA_IMAGES
+        else
+            Manifest.permission.READ_EXTERNAL_STORAGE
+
     private val resultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -61,15 +67,43 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
             openCamera()
     }
 
+    private val requestStoragePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            showImagePicker()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentUploadImageBinding.bind(view)
         binding.btnSelectImage.setOnClickListener {
-            showAvatarPicker()
+            onImageChange()
         }
     }
 
-    private fun showAvatarPicker() {
+    private fun onImageChange() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                readImagesPermission
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requireContext().showPermissionAlert(
+                getString(R.string.permission_title_gallery),
+                getString(R.string.permission_msg_gallery),
+                {
+                    requestStoragePermissionLauncher.launch(
+                        readImagesPermission
+                    )
+                }
+            )
+        } else {
+            showImagePicker()
+        }
+    }
+
+    private fun showImagePicker() {
         selector?.let {
             viewModel.getRecentMedia(it, RECENT_IMAGES_LIMIT) { images ->
                 ImagePickerDialog(
@@ -147,7 +181,10 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
     }
 
     private fun chooseCameraImage(media: Media) {
-        binding.ivSelectedImage.loadCover(media.path)
+        Glide
+            .with(requireContext())
+            .load(media.path)
+            .into(binding.ivSelectedImage)
     }
 
     private fun chooseMedia(media: Media) {
@@ -161,7 +198,10 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
             getRealUriPath(requireContext(), srcUri)
         }
 
-        binding.ivSelectedImage.loadCover(media.path)
+        Glide
+            .with(requireContext())
+            .load(realPath)
+            .into(binding.ivSelectedImage)
     }
 
     private fun getRealUriPath(

@@ -17,7 +17,7 @@ class PermissionAlert(
     private val onDismissAction: (() -> Unit)? = null
 ) : Dialog(context) {
 
-    val binding = AlertPermissionBinding.inflate(LayoutInflater.from(context))
+    private val binding = AlertPermissionBinding.inflate(LayoutInflater.from(context))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -8,5 +8,7 @@
     <string name="recent">Recent</string>
     <string name="allow">Allow</string>
     <string name="permission_title_camera">Allow access to the camera</string>
-    <string name="permission_msg_camera">To take photos, shoot videos \bonline and send to chat, FaceTrace \nneeds permission to the camera</string>
+    <string name="permission_msg_camera">To take photos FaceTrace needs permission to the camera</string>
+    <string name="permission_title_gallery">Allow access to the gallery</string>
+    <string name="permission_msg_gallery">FaceTrace needs your permission to share your photos</string>
 </resources>

@@ -19,7 +19,7 @@ class ImagePickerDialog(
     private val chooseMedia: (media: Media) -> Unit
 ) : Dialog(context) {
 
-    val binding = DialogImagePickerBinding.inflate(LayoutInflater.from(context))
+    private val binding = DialogImagePickerBinding.inflate(LayoutInflater.from(context))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
