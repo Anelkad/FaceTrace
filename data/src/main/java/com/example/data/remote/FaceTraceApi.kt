@@ -1,6 +1,6 @@
 package com.example.data.remote
 
-import com.example.domain.model.SearchResult
+import com.example.data.model.SearchResultDTO
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Multipart
@@ -12,5 +12,5 @@ interface FaceTraceApi {
     @POST("api/v1/search")
     suspend fun search(
         @Part image: MultipartBody.Part
-    ): Response<List<SearchResult>>
+    ): Response<List<SearchResultDTO>>
 }

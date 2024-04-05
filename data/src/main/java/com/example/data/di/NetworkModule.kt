@@ -55,7 +55,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideProxyRetrofit(
+    fun provideRetrofit(
         okHttpClient: OkHttpClient,
         gson: Gson
     ): Retrofit = Retrofit.Builder()
@@ -67,7 +67,6 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    @Named("FACE_TRACE_API")
     fun provideApi(
         retrofit: Retrofit
     ): FaceTraceApi = retrofit.create()

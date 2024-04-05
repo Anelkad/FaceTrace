@@ -17,7 +17,7 @@ class FaceTraceRepositoryImpl(
     override suspend fun search(path: String): CommonResult<List<SearchResult>> = withContext(Dispatchers.IO) {
         val file = File(path)
         val image = MultipartBody.Part.createFormData(
-            "file",
+            "image",
             file.name,
             file.asRequestBody(("image/*").toMediaTypeOrNull())
         )
@@ -25,7 +25,7 @@ class FaceTraceRepositoryImpl(
             image = image
         )
         if (response.isSuccessful) {
-            CommonResult(result = response.body())
+            CommonResult(result = response.body()?.map { it.toDomain() })
         } else {
             CommonResult(error = response.message())
         }

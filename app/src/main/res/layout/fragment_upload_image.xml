@@ -9,21 +9,41 @@
     <ImageView
         android:id="@+id/iv_selected_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="15dp"
+        android:src="@drawable/baseline_add_a_photo_24"
         android:contentDescription="@string/image"
         android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@+id/btn_select_image"
+        app:layout_constraintBottom_toTopOf="@+id/fr_button"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_select_image"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/fr_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:text="@string/upload_image"
+        android:layout_marginTop="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="Опубликовать" />
+
+        <ProgressBar
+            android:id="@+id/progress_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:visibility="gone" />
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

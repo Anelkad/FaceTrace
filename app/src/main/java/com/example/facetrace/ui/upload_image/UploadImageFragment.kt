@@ -78,7 +78,7 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentUploadImageBinding.bind(view)
-        binding.btnSelectImage.setOnClickListener {
+        binding.ivSelectedImage.setOnClickListener {
             onImageChange()
         }
     }
@@ -181,10 +181,8 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
     }
 
     private fun chooseCameraImage(media: Media) {
-        Glide
-            .with(requireContext())
-            .load(media.path)
-            .into(binding.ivSelectedImage)
+        currentImagePath = media.path
+        loadImage()
     }
 
     private fun chooseMedia(media: Media) {
@@ -197,11 +195,8 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
         } else {
             getRealUriPath(requireContext(), srcUri)
         }
-
-        Glide
-            .with(requireContext())
-            .load(realPath)
-            .into(binding.ivSelectedImage)
+        currentImagePath = realPath
+        loadImage()
     }
 
     private fun getRealUriPath(
@@ -221,6 +216,14 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
             cursor?.close()
         }
         return null
+    }
+
+    private fun loadImage() {
+        Glide
+            .with(requireContext())
+            .load(currentImagePath)
+            .into(binding.ivSelectedImage)
+        binding.btnSearch.isEnabled = true
     }
 
 }
