@@ -36,8 +36,11 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchResultBinding.bind(view)
-        binding.rvSearchResult.adapter = resultIntentData?.result?.let { SearchResultAdapter(it) }
 
+        binding.apply {
+            rvSearchResult.itemAnimator = null
+            rvSearchResult.adapter = resultIntentData?.result?.let { SearchResultAdapter(it) }
+        }
     }
 
 }

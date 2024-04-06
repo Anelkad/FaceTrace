@@ -12,4 +12,5 @@
     <string name="permission_title_gallery">Allow access to the gallery</string>
     <string name="permission_msg_gallery">FaceTrace needs your permission to share your photos</string>
     <string name="search">Search</string>
+    <string name="smth_went_wrong">Something went wrong</string>
 </resources>

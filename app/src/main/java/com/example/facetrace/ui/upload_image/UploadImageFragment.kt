@@ -1,4 +1,3 @@
-
 package com.example.facetrace.ui.upload_image
 
 import android.Manifest
@@ -13,23 +12,32 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.domain.model.Gallery
 import com.example.domain.model.Media
+import com.example.domain.model.SearchResult
 import com.example.facetrace.R
+import com.example.facetrace.base.CommonState
 import com.example.facetrace.base.constants.Constants
+import com.example.facetrace.base.extensions.hide
+import com.example.facetrace.base.extensions.show
 import com.example.facetrace.base.extensions.showPermissionAlert
 import com.example.facetrace.databinding.FragmentUploadImageBinding
 import com.example.facetrace.ui.file_picker.BottomDialogFilePicker
 import com.example.facetrace.ui.image_picker.ImagePickerDialog
+import com.example.facetrace.ui.search_result.SearchResultFragment
 import com.luck.picture.lib.basic.PictureSelector
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.io.File
 
 private const val RECENT_IMAGES_LIMIT = 10
@@ -78,9 +86,50 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentUploadImageBinding.bind(view)
-        binding.ivSelectedImage.setOnClickListener {
-            onImageChange()
+        binding.apply {
+            ivSelectedImage.setOnClickListener {
+                onImageChange()
+            }
+            btnSearch.setOnClickListener {
+                currentImagePath?.let { path -> viewModel.searchImage(path) }
+            }
         }
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        viewModel.state.onEach { state ->
+            when (state) {
+                is CommonState.Error -> {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.smth_went_wrong),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    binding.btnSearch.isClickable = true
+                }
+
+                is CommonState.HideLoading -> {
+                    binding.apply {
+                        progressButton.hide()
+                        btnSearch.text = getString(R.string.search)
+                    }
+                }
+
+                is CommonState.ShowLoading -> {
+                    binding.apply {
+                        btnSearch.text = Constants.EMPTY_STRING
+                        progressButton.show()
+                    }
+                }
+
+                is CommonState.Result<*> -> {
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, SearchResultFragment.newInstance(state.result as List<SearchResult>))
+                        .commit()
+                }
+            }
+        }.launchIn(lifecycleScope)
     }
 
     private fun onImageChange() {
