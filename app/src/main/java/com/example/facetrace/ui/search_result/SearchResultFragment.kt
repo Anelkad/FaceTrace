@@ -7,6 +7,8 @@ import com.example.domain.model.SearchResult
 import com.example.facetrace.R
 import com.example.facetrace.base.ResultIntentData
 import com.example.facetrace.base.constants.IntentConstants
+import com.example.facetrace.base.extensions.hide
+import com.example.facetrace.base.extensions.show
 import com.example.facetrace.databinding.FragmentSearchResultBinding
 
 class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
@@ -37,9 +39,12 @@ class SearchResultFragment : Fragment(R.layout.fragment_search_result) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchResultBinding.bind(view)
 
+        val dataList = resultIntentData?.result ?: emptyList()
+
         binding.apply {
             rvSearchResult.itemAnimator = null
-            rvSearchResult.adapter = resultIntentData?.result?.let { SearchResultAdapter(it) }
+            rvSearchResult.adapter = SearchResultAdapter(dataList)
+            if (dataList.isEmpty()) tvDataEmpty.show() else tvDataEmpty.hide()
         }
     }
 

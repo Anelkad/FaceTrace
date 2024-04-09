@@ -103,7 +103,7 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
                 is CommonState.Error -> {
                     Toast.makeText(
                         context,
-                        getString(R.string.smth_went_wrong),
+                        state.error,
                         Toast.LENGTH_LONG
                     ).show()
                     binding.apply {
@@ -124,12 +124,14 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
                     binding.apply {
                         btnSearch.text = Constants.EMPTY_STRING
                         progressButton.show()
+                        btnSearch.isClickable = false
                     }
                 }
 
                 is CommonState.Result<*> -> {
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, SearchResultFragment.newInstance(state.result as List<SearchResult>))
+                        .addToBackStack(null)
                         .commit()
                 }
             }
