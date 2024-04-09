@@ -106,7 +106,11 @@ class UploadImageFragment : Fragment(R.layout.fragment_upload_image) {
                         getString(R.string.smth_went_wrong),
                         Toast.LENGTH_LONG
                     ).show()
-                    binding.btnSearch.isClickable = true
+                    binding.apply {
+                        progressButton.hide()
+                        btnSearch.text = getString(R.string.search)
+                        btnSearch.isClickable = true
+                    }
                 }
 
                 is CommonState.HideLoading -> {

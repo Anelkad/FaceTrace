@@ -11,6 +11,6 @@ interface FaceTraceApi {
     @Multipart
     @POST("api/v1/search")
     suspend fun search(
-        @Part image: MultipartBody.Part
+        @Part file: MultipartBody.Part
     ): Response<List<SearchResultDTO>>
 }

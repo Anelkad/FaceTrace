@@ -17,5 +17,5 @@ object RepositoryModule {
     @Singleton
     fun providePostRepository(
         api: FaceTraceApi
-    ): FaceTraceRepository = FaceTraceRepositoryImplTest(api)
+    ): FaceTraceRepository = FaceTraceRepositoryImpl(api)
 }
