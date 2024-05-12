@@ -49,6 +49,7 @@ dependencies {
 
     //Hilt
     implementation("com.google.dagger:hilt-android:2.44")
+    implementation("androidx.activity:activity:1.9.0")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
