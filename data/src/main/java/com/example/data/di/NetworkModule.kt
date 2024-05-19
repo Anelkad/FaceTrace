@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.data.BuildConfig
 import com.example.data.base.ApiConstants
 import com.example.data.remote.FaceTraceApi
+import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -70,5 +71,8 @@ object NetworkModule {
     fun provideApi(
         retrofit: Retrofit
     ): FaceTraceApi = retrofit.create()
+
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
 }

@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -43,6 +44,9 @@ android {
 dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
+
+    //firebase
+    implementation("com.google.firebase:firebase-auth:23.0.0")
 
     //Picture Selector
     implementation("io.github.lucksiege:pictureselector:v3.10.0")

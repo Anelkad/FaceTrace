@@ -18,4 +18,5 @@
     <string name="sign_up">Sign Up</string>
     <string name="username">Username</string>
     <string name="full_name">Full name</string>
+    <string name="email">Email</string>
 </resources>

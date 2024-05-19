@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -33,6 +34,9 @@ android {
 
 dependencies {
     implementation(project(":domain"))
+
+    //firebase
+    implementation("com.google.firebase:firebase-auth:23.0.0")
 
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.44")
